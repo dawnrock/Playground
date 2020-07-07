@@ -103,3 +103,4 @@ var getRandom = () => Math.floor(Math.random()* range) + min;
 
 console.log(getRandom());
 
+///////
