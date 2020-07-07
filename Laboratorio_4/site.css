@@ -1,0 +1,55 @@
+h1 {
+    font-size: 32px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: auto;
+    padding: 20px;
+
+}
+
+h3 {
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: auto;
+    padding: 20px;
+
+}
+
+h4 {
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: auto;
+    padding: 20px;
+}
+
+.col-50 {
+    margin: auto;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    display: flex;
+}
+
+
+.row {
+    padding: 32px;
+    border-radius: 3px;
+    border: 1px solid #dddddd;
+    display: table-cell;
+    background-color:  #dcdcdc;
+
+
+}
+
+
+.hotel-name {
+    font-size: 12px;
+}
+
+.hotel-location {
+    font-size: 12px;
+}
+
+.image {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative; 
+}
