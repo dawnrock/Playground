@@ -1,6 +1,6 @@
-// // Validar Matricula
+// // Validar Matricula.
 
-// Caso 2
+// Caso 2.
 // Vamos a extraer por un lado la parte numérica y por otro las letras.
 
 
