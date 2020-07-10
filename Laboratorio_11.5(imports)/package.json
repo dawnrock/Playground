@@ -4,6 +4,7 @@
   "description": "Ejemplo Módulo 8",
   "main": "index.js",
   "scripts": {
+    "start": "parcel index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Manu Alba",
