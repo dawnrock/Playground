@@ -1,0 +1,14 @@
+{
+  "name": "laboratorio",
+  "version": "1.0.0",
+  "description": "Ejemplo Módulo 8",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Manu Alba",
+  "license": "ISC",
+  "dependencies": {
+    "parcel-bundler": "^1.12.4"
+  }
+}
