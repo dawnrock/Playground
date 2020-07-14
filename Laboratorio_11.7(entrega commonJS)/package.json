@@ -1,0 +1,12 @@
+{
+  "name": "laboratorio_11.7",
+  "version": "1.0.0",
+  "description": "Entrega módulo 8 en commonJS",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Manu Alba",
+  "license": "ISC"
+}
