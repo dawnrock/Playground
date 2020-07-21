@@ -1,0 +1,17 @@
+{
+  "name": "laboratorio_9-entrega",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Manu Alba",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "parcel-bundler": "^1.12.4"
+  },
+  "devDependencies": {},
+  "description": ""
+}
