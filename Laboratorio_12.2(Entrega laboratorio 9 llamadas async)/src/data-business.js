@@ -5,9 +5,6 @@ function getCharacters() {
     .get("https://www.breakingbadapi.com/api/characters")
     .then((response) => {
       return response.data;
-    })
-    .catch((error) => {
-      document.write("Se ha producido un error en la llamada a la API");
     });
 }
 
