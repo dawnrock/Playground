@@ -8,7 +8,7 @@ DataBusiness.getCharacters().then((datos) => {
   const divRoot = document.getElementById("root");
   const nodeBreaking = [];
   for (let characterCount of datos) {
-    const node = Utils.createCharacterRow(characterCount);
+    const node = Utils.createCharacter(characterCount);
 
     node.onclick = function () {
       DataBusiness.getCharactersById(characterCount.char_id).then((datos2) => {

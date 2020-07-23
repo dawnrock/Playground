@@ -1,4 +1,4 @@
-const createCharacterRow = (character) => {
+const createCharacter = (character) => {
   const element = document.createElement("div");
 
   const avatar = createAvatar(character);
@@ -57,4 +57,4 @@ const createParagraph = (text) => {
   return element;
 };
 
-export { createCharacterRow, showCharacter };
+export { createCharacter, showCharacter };
