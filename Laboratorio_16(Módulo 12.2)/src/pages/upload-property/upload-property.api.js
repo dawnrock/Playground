@@ -17,5 +17,5 @@ export const getEquipmentsList = () =>
 export const getProvincesList = () =>
   Axios.get(urlProvinces).then(({ data }) => data);
 
-export const postProperty = (contact) =>
-  Axios.post(urlProperties, contact).then(({ data }) => data);
+export const postProperty = (newProperty) =>
+  Axios.post(urlProperties, newProperty).then(({ data }) => data);
