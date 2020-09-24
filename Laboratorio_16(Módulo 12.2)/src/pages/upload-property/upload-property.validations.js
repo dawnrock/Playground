@@ -125,13 +125,7 @@ const validationSchema = {
         message: 'Campo requerido',
       },
     ],
-    images: [
-      {
-        validator: arrayRequired.validator,
-        customArgs: { minLength: 1 },
-        message: 'Campo requerido',
-      },
-    ],
+    
   },
 };
 

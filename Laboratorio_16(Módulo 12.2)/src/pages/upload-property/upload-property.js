@@ -25,23 +25,46 @@ import {
   onAddImage,
 } from './upload-property.helpers';
 
-// const setEvents = (list, idCheckBox) => {
-//   list.forEach((element) => {
-//     const id = formatCheckboxId(element);
-//     onUpdateField(id, (event) => {
-//       const value = event.target.value;
-//       if (event.target.checked === true) {
-//         newProperty = addEle;
-//       }
-//     });
-//   });
-// };
-
 Promise.all([getSaleTypes(), getEquipmentsList(), getProvincesList()]).then(
   ([saleTypeList, equipamentList, provincesList]) => {
-    setCheckboxList(saleTypeList, 'saleTypes');
     setOptionList(provincesList, 'province');
+    setCheckboxList(saleTypeList, 'saleTypes');
+    saleTypeList.map((itemSaleTypes) => {
+      const checkBoxId = formatCheckboxId(itemSaleTypes);
+      onUpdateField(checkBoxId, (event) => {
+        const checked = event.target.checked;
+        if (checked == true) {
+          newProperty.saleType.push(itemSaleTypes.id);
+        } else {
+          const index = newProperty.saleType.indexOf(itemSaleTypes.id);
+          newProperty.saleType.splice(index, 1);
+        }
+        //Hacemos un validador custom para introducir un mensaje de error si no se marca al menos una casilla.
+        if (newProperty.saleType.length < 1) {
+          onSetError('saleTypes', {
+            succeeded: false,
+            message: 'Es necesario marcar al menos una casilla',
+          });
+        } else {
+          onSetError('saleTypes', { succeeded: true, message: '' });
+        }
+      });
+    });
+
     setCheckboxList(equipamentList, 'equipments');
+    equipamentList.map((itemEquipments) => {
+      //cada itemEquipments representa un item del array
+      const checkBoxId = formatCheckboxId(itemEquipments);
+      onUpdateField(checkBoxId, (event) => {
+        const checked = event.target.checked; //pongo checked porque quiero que se tenga en cuenta cuando hago check
+        if (checked == true) {
+          newProperty.equipmentIds.push(itemEquipments.id); //No olvidar que push añade algo a una array. Por ello, en el equipmentIds que contiene transferGeneralData, debo colocar un array vacío.
+        } else {
+          const index = newProperty.equipmentIds.indexOf(itemEquipments.id);
+          newProperty.equipmentIds.splice(index, 1);
+        }
+      });
+    });
   }
 );
 
@@ -262,6 +285,22 @@ onUpdateField('equipments', (event) => {
 
 onAddFile('add-image', (value) => {
   onAddImage(value);
+  newProperty.image = value;
+});
+
+let btnNewFeature = document.getElementById('insert-feature-button');
+btnNewFeature.addEventListener('click', (event) => {
+  const featureInput = document.getElementById('newFeature').value;
+  newProperty.mainFeatures.push(featureInput);
+  onAddFeature(featureInput);
+  const featureDelete = document.getElementById(
+    `delete-${featureInput}-button`
+  );
+  featureDelete.addEventListener('click', (event) => {
+    onRemoveFeature(featureInput);
+    const index = newProperty.mainFeatures.indexOf(featureInput);
+    newProperty.mainFeatures.splice(index, 1);
+  });
 });
 
 onSubmitForm('save-button', () => {
@@ -271,6 +310,8 @@ onSubmitForm('save-button', () => {
       postProperty(newProperty).then(() => {
         history.back();
       });
+    } else {
+      console.log(result);
     }
   });
 });
