@@ -50,6 +50,13 @@ const validationSchema = {
         message: 'Precio incorrecto',
       },
     ],
+    saleTypes: [
+      {
+        validator: arrayRequired.validator,
+        customArgs: { minLength: 1 },
+        message: 'Campo requerido',
+      },
+    ],
     address: [
       {
         validator: Validators.required,
@@ -125,7 +132,6 @@ const validationSchema = {
         message: 'Campo requerido',
       },
     ],
-    
   },
 };
 

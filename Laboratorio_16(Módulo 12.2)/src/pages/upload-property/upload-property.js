@@ -25,49 +25,6 @@ import {
   onAddImage,
 } from './upload-property.helpers';
 
-Promise.all([getSaleTypes(), getEquipmentsList(), getProvincesList()]).then(
-  ([saleTypeList, equipamentList, provincesList]) => {
-    setOptionList(provincesList, 'province');
-    setCheckboxList(saleTypeList, 'saleTypes');
-    saleTypeList.map((itemSaleTypes) => {
-      const checkBoxId = formatCheckboxId(itemSaleTypes);
-      onUpdateField(checkBoxId, (event) => {
-        const checked = event.target.checked;
-        if (checked == true) {
-          newProperty.saleType.push(itemSaleTypes.id);
-        } else {
-          const index = newProperty.saleType.indexOf(itemSaleTypes.id);
-          newProperty.saleType.splice(index, 1);
-        }
-        //Hacemos un validador custom para introducir un mensaje de error si no se marca al menos una casilla.
-        if (newProperty.saleType.length < 1) {
-          onSetError('saleTypes', {
-            succeeded: false,
-            message: 'Es necesario marcar al menos una casilla',
-          });
-        } else {
-          onSetError('saleTypes', { succeeded: true, message: '' });
-        }
-      });
-    });
-
-    setCheckboxList(equipamentList, 'equipments');
-    equipamentList.map((itemEquipments) => {
-      //cada itemEquipments representa un item del array
-      const checkBoxId = formatCheckboxId(itemEquipments);
-      onUpdateField(checkBoxId, (event) => {
-        const checked = event.target.checked; //pongo checked porque quiero que se tenga en cuenta cuando hago check
-        if (checked == true) {
-          newProperty.equipmentIds.push(itemEquipments.id); //No olvidar que push añade algo a una array. Por ello, en el equipmentIds que contiene transferGeneralData, debo colocar un array vacío.
-        } else {
-          const index = newProperty.equipmentIds.indexOf(itemEquipments.id);
-          newProperty.equipmentIds.splice(index, 1);
-        }
-      });
-    });
-  }
-);
-
 let newProperty = {
   title: '',
   notes: '',
@@ -82,11 +39,65 @@ let newProperty = {
   rooms: '',
   bathrooms: '',
   locationUrl: '',
-  // newFeature: '',
   mainFeatures: [],
   equipments: [],
   images: [],
 };
+
+Promise.all([getSaleTypes(), getEquipmentsList(), getProvincesList()]).then(
+  ([saleTypeList, equipmentList, provincesList]) => {
+    setOptionList(provincesList, 'province');
+
+    setCheckboxList(saleTypeList, 'saleTypes');
+
+    setCheckboxList(equipmentList, 'equipments');
+    setEvents(saleTypeList, 'saleTypes');
+    setEvents(equipmentList, 'equipments');
+  }
+);
+
+const addElement = (value, id) =>
+  (newProperty = { ...newProperty, [id]: [...newProperty[id], value] });
+
+const removeElement = (value, id) => {
+  const ids = newProperty[id].indexOf(value);
+
+  newProperty[id].splice(ids, 1);
+};
+
+const setEvents = (list, id) => {
+  list.forEach((element) => {
+    const ids = formatCheckboxId(element);
+    onUpdateField(ids, (event) => {
+      const value = event.target.value;
+      event.target.checked ? addElement(value, id) : removeElement(value, id);
+      console.log(newProperty);
+    });
+  });
+};
+
+// saleTypeList.map((itemSaleTypes) => {
+//   const checkBoxId = formatCheckboxId(itemSaleTypes);
+//   onUpdateField(checkBoxId, (event) => {
+//     const checked = event.target.checked;
+//     if (checked == true) {
+//       console.log(newProperty.saleTypes);
+//       newProperty.saleTypes.push(itemSaleTypes.id);
+//     } else {
+//       const index = newProperty.saleTypes.indexOf(itemSaleTypes.id);
+//       newProperty.saleTypes.splice(index, 1);
+//     }
+//     //Hacemos un validador custom para introducir un mensaje de error si no se marca al menos una casilla.
+//     if (newProperty.saleTypes.length < 1) {
+//       onSetError('saleTypes', {
+//         succeeded: false,
+//         message: 'Es necesario marcar al menos una casilla',
+//       });
+//     } else {
+//       onSetError('saleTypes', { succeeded: true, message: '' });
+//     }
+//   });
+// });
 
 onUpdateField('title', (event) => {
   const value = event.target.value;
@@ -141,19 +152,6 @@ onUpdateField('price', (event) => {
   newProperty = {
     ...newProperty,
     price: value,
-  };
-
-  formValidation.validateField('price', newProperty.price).then((result) => {
-    onSetError('price', result);
-  });
-});
-
-onUpdateField('saleTypes', (event) => {
-  const value = event.target.value;
-  const isChecked = event.target.checked;
-  newProperty = {
-    ...newProperty,
-    saleTypes: isChecked ? formatCheckboxId(value) : '',
   };
 
   formValidation.validateField('price', newProperty.price).then((result) => {
@@ -269,19 +267,19 @@ onUpdateField('newFeature', (event) => {
     });
 });
 
-onUpdateField('equipments', (event) => {
-  const value = event.target.value;
-  newProperty = {
-    ...newProperty,
-    equipments: value,
-  };
+// onUpdateField('equipments', (event) => {
+//   const value = event.target.value;
+//   newProperty = {
+//     ...newProperty,
+//     equipments: value,
+//   };
 
-  formValidation
-    .validateField('equipments', newProperty.equipments)
-    .then((result) => {
-      onSetError('equipments', result);
-    });
-});
+//   formValidation
+//     .validateField('equipments', newProperty.equipments)
+//     .then((result) => {
+//       onSetError('equipments', result);
+//     });
+// });
 
 onAddFile('add-image', (value) => {
   onAddImage(value);
