@@ -15,6 +15,6 @@ export const mapNewPropertyFromVMtoApi = (newProperty) => {
     locationUrl: newProperty.locationUrl,
     mainFeatures: newProperty.mainFeatures,
     equipmentIds: newProperty.equipments,
-    images: newProperty.images,
+    images: [newProperty.images],
   };
 };

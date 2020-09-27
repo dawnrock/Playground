@@ -19,11 +19,12 @@ import {
   formatCheckboxId,
   setCheckboxList,
   setOptionList,
-  formatDeleteFeatureButtonId,
   onAddFeature,
   onRemoveFeature,
   onAddImage,
 } from './upload-property.helpers';
+
+import { mapNewPropertyFromVMtoApi } from './upload-property.mappers';
 
 let newProperty = {
   title: '',
@@ -75,29 +76,6 @@ const setEvents = (list, id) => {
     });
   });
 };
-
-// saleTypeList.map((itemSaleTypes) => {
-//   const checkBoxId = formatCheckboxId(itemSaleTypes);
-//   onUpdateField(checkBoxId, (event) => {
-//     const checked = event.target.checked;
-//     if (checked == true) {
-//       console.log(newProperty.saleTypes);
-//       newProperty.saleTypes.push(itemSaleTypes.id);
-//     } else {
-//       const index = newProperty.saleTypes.indexOf(itemSaleTypes.id);
-//       newProperty.saleTypes.splice(index, 1);
-//     }
-//     //Hacemos un validador custom para introducir un mensaje de error si no se marca al menos una casilla.
-//     if (newProperty.saleTypes.length < 1) {
-//       onSetError('saleTypes', {
-//         succeeded: false,
-//         message: 'Es necesario marcar al menos una casilla',
-//       });
-//     } else {
-//       onSetError('saleTypes', { succeeded: true, message: '' });
-//     }
-//   });
-// });
 
 onUpdateField('title', (event) => {
   const value = event.target.value;
@@ -283,7 +261,7 @@ onUpdateField('newFeature', (event) => {
 
 onAddFile('add-image', (value) => {
   onAddImage(value);
-  newProperty.image = value;
+  newProperty.images = value;
 });
 
 let btnNewFeature = document.getElementById('insert-feature-button');
@@ -305,7 +283,8 @@ onSubmitForm('save-button', () => {
   formValidation.validateForm(newProperty).then((result) => {
     onSetFormErrors(result);
     if (result.succeeded) {
-      postProperty(newProperty).then(() => {
+      const propertyMapped = mapNewPropertyFromVMtoApi(newProperty);
+      postProperty(propertyMapped).then(() => {
         history.back();
       });
     } else {
